@@ -31,5 +31,6 @@ It's built as a personal open-source learning portfolio by [John Lazaridis](http
 
 1. **Clone the repo**  
    ```bash
-   git clone https://github.com/your-username/hebi-kata.git
-   cd hebi-kata
+      git clone https://github.com/Rumbleaxe/hebikata.git
+      cd hebikata
+   ```
