@@ -13,7 +13,7 @@
 - 🧪 **Instant feedback** to promote active learning
 - 🎛️ **Interactive UI** powered by Streamlit
 
-It's built as a personal open-source learning portfolio by [John Lazaridis](https://your-portfolio-link), aiming to democratize Python education while showcasing pedagogical and MLOps design.
+It's built as a personal open-source learning portfolio by [John Lazaridis](https://www.linkedin.com/in/ioannislazaridis/), aiming to democratize Python education while showcasing pedagogical and MLOps design.
 
 ---
 
