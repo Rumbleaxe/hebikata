@@ -1,5 +1,19 @@
 """
-Simple test to verify exercise execution logic.
+Test Suite for HebiKata Core Logic
+
+This module contains unit tests that validate the core functionality of
+the HebiKata application, specifically the code execution and testing engine.
+
+Tests cover:
+- Successful code execution and test validation
+- Failed assertions and error messages
+- Syntax error handling
+- Different data types (integers, strings, floats, etc.)
+
+Run with: python test_logic.py
+
+Author: HebiKata Contributors
+License: Apache 2.0
 """
 
 import sys
@@ -7,7 +21,7 @@ sys.path.insert(0, 'app')
 
 from main import execute_code_with_tests
 
-# Test 1: Successful test
+# Test 1: Successful execution
 print("Test 1: Successful execution")
 user_code = "mana = 100"
 test_code = """
