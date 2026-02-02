@@ -1,0 +1,81 @@
+exercises:
+  - id: var_rpg_001
+    level: beginner
+    concept: variables
+    theme: rpg
+    prompt: |
+      🧙‍♂️ Your wizard casts Fireball! Set mana to 100.
+    initial_code: |
+      mana = 50  # Too low for Fireball!
+    pytest_tests: |
+      def test_mana():
+          assert mana == 100, "Fireball needs 100 mana!"
+    hint: "Use = to assign: mana = 100"
+    pep_tip: "PEP8: snake_case (player_mana), not camelCase"
+    srs_interval: 1
+    score_factors: {time: 100, attempts: 100, keystrokes: 8}
+
+  - id: var_hack_001
+    level: beginner
+    concept: variables
+    theme: hacking
+    prompt: |
+      💀 Terminal> Set decrypt_key to access mainframe
+    initial_code: |
+      decrypt_key = "guest"  # Wrong credentials
+    pytest_tests: |
+      def test_key():
+          assert decrypt_key == "skRM9x", "Access denied"
+    hint: "decrypt_key = 'skRM9x' (quotes for strings)"
+    pep_tip: "String literals use single or double quotes"
+    srs_interval: 1
+
+  - id: var_sci_001
+    level: beginner
+    concept: variables-numbers
+    theme: science
+    prompt: |
+      🧪 Neutron mass = 1.675e-27 kg. Set it correctly.
+    initial_code: |
+      neutron_mass = 1.675  # Missing scientific notation
+    pytest_tests: |
+      def test_neutron():
+          assert abs(neutron_mass - 1.675e-27) < 1e-28
+    hint: "Use e for scientific notation: 1.675e-27"
+    pep_tip: "Floats for decimals, meaningful names"
+
+  - id: var_crypto_001
+    level: beginner
+    concept: variables-hex
+    theme: crypto
+    prompt: |
+      🔐 Nonce must be 0xdeadbeef for blockchain validation
+    initial_code: |
+      nonce = 3735928559  # Decimal form - convert!
+    pytest_tests: |
+      def test_nonce():
+          assert hex(nonce) == "0xdeadbeef"
+    hint: "nonce = 0xdeadbeef (0x prefix for hex)"
+    pep_tip: "Hex literals start with 0x"
+
+  - id: var_boss_001
+    level: beginner
+    concept: variables-review
+    theme: arcade
+    prompt: |
+      🎮 HIGH SCORE! Set all 3 variables correctly:
+      * player_lives = 3
+      * score = 0 
+      * high_score = 999999
+    initial_code: |
+      player_lives = 1
+      score = 100
+      high_score = 1000  # Beat the arcade record!
+    pytest_tests: |
+      def test_arcade():
+          assert player_lives == 3
+          assert score == 0  
+          assert high_score == 999999
+    hint: "Fix all 3 assignments above"
+    pep_tip: "Consistency: all snake_case, same style"
+    snake_boss: true
