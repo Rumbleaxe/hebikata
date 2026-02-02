@@ -3,6 +3,15 @@
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/streamlit-Interactive%20UI-orange)](https://streamlit.io/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](LICENSE)
+[![Live App](https://img.shields.io/badge/live%20app-Streamlit%20Cloud-FF4B4B)](https://hebikatagit-a96zsajn6ln94t2xfnxpcm.streamlit.app/)
+
+---
+
+## 🚀 Try It Now!
+
+**Live Demo:** [https://hebikatagit-a96zsajn6ln94t2xfnxpcm.streamlit.app/](https://hebikatagit-a96zsajn6ln94t2xfnxpcm.streamlit.app/)
+
+Start learning Python through repetition immediately - no installation required!
 
 ---
 
@@ -15,12 +24,31 @@ It helps students master Python programming through scaffolded, incremental exer
 
 ## Key Features
 
-- 🖥️ **Live Python Editor:** Large, interactive terminal window for coding directly in the browser  
-- 🔄 **Repetition-Based Learning:** Each exercise repeated 5 times with different variations for mastery  
-- 📚 **Structured Curriculum:** Chapters → Sections → Exercises → Variations (5×5×5 matrix)  
+- 🖥️ **Live Python Editor:** Interactive code editor with real-time pytest validation  
+- 🔄 **Repetition-Based Learning:** Each exercise requires 3 successes with immediate feedback for mastery  
+- 📚 **Themed Variety:** 5 contextually varied exercises (RPG, Hacking, Science, Crypto, Boss Challenge)  
 - ✅ **Automated Testing:** Immediate correctness feedback with pytest-based validation  
 - 🎯 **Progressive Difficulty:** Exercises increase in complexity, reinforcing fundamentals and best practices  
-- 🛠️ **Code Quality Tools:** Integrated linting and formatting guidance (ruff, black, mypy)  
+- 🎮 **Arcade Aesthetic:** 8-bit inspired green terminal theme for immersive learning experience
+- 💡 **Hints & Tips:** Built-in help system with PEP8 style guidance
+
+---
+
+## Current Status: MVP (v0.1.0)
+
+✅ **Chapter 1: Variables** - 5 exercises covering:
+- Variable assignment
+- String literals
+- Scientific notation (floats)
+- Hexadecimal literals
+- Multiple variable challenges
+
+🚧 **Coming Soon:**
+- Additional chapters (Control Flow, Functions, Data Structures, etc.)
+- Snake animation visualizations
+- 8-bit sound effects
+- Auto-run tests on keystroke
+- Session persistence and progress saving
 
 ---
 
@@ -34,49 +62,78 @@ It helps students master Python programming through scaffolded, incremental exer
 
 ---
 
-## Getting Started
+## Getting Started (Local Development)
 
-1. **Clone the repo:**  
-```
+### 1. Clone the repo
 
-git clone https://github.com/your-org/hebikata.git
+```bash
+git clone https://github.com/Rumbleaxe/hebikata.git
 cd hebikata
-
 ```
 
-2. **Install dependencies:**  
+### 2. Set up environment
+
+```bash
+# Create virtual environment with uv
+uv venv
+
+# Activate virtual environment
+# Windows:
+.\.venv\Scripts\activate
+# Unix/macOS:
+source .venv/bin/activate
+
+# Install dependencies
+uv pip install -r requirements-dev.txt
 ```
 
-pip install -r requirements.txt
+### 3. Run locally
 
+```bash
+# Windows (quick launcher)
+.\run_hebikata.bat
+
+# Or manually
+streamlit run app\main.py
 ```
 
-3. **Run the app:**  
-```
+### 4. Start learning
 
-streamlit run app/main.py
-
-```
-
-4. **Start learning:**  
-Open the browser window, follow the interactive exercises, and watch your Python skills grow!
+Open http://localhost:8501 in your browser and start mastering Python!
 
 ---
 
 ## Project Structure
 
-- `app/` — Core Streamlit app code, UI components, exercises, and tests  
-- `data/` — Exercise input variations and hints (JSON files)  
-- `docs/` — Curriculum design and pedagogical notes  
-- `scripts/` — Dev and deployment helpers  
-- `requirements.txt` — Python dependencies  
-- `LICENSE` — Apache 2.0 license  
+```
+hebikata/
+├── app/                    # Core Streamlit application
+│   └── main.py            # Main app with UI and execution logic
+├── data/                   # Exercise definitions
+│   └── exercises.yaml     # 5 themed exercises for Chapter 1
+├── docs/                   # Sphinx documentation
+├── .github/               # GitHub configuration
+│   └── copilot-instructions.md  # AI assistant guidance
+├── requirements.txt       # Minimal deployment dependencies
+├── requirements-dev.txt   # Full development dependencies
+├── test_logic.py         # Core logic validation tests
+├── run_hebikata.bat      # Windows quick launcher
+└── MVP_README.md         # Detailed MVP documentation
+```
 
 ---
 
 ## Contributing
 
 Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on submitting issues and pull requests, coding standards, and testing requirements.
+
+---
+
+## Documentation
+
+- **Quick Start:** [MVP_README.md](MVP_README.md) - Detailed usage guide and feature overview
+- **Development:** [.github/copilot-instructions.md](.github/copilot-instructions.md) - Architecture and conventions
+- **Changes:** [CHANGELOG.md](CHANGELOG.md) - Version history and updates
 
 ---
 

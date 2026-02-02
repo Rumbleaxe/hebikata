@@ -34,10 +34,13 @@
 - [ ] Better code editor (streamlit-ace)
 - [ ] More exercise chapters (2-10)
 
-## 4. Upload to Streamlit Host (Ready for Deployment)
-- [ ] Set up a Streamlit account
-- [ ] Deploy the application to Streamlit sharing platform
+## 4. Upload to Streamlit Host ✅ COMPLETE
+- [x] Set up a Streamlit account
+- [x] Deploy the application to Streamlit sharing platform
   - [x] Ensure all dependencies are listed in `requirements.txt` ✅
-  - [ ] Test the application on Streamlit Cloud
-  - [ ] Share the link with stakeholders for feedback
+  - [x] Fix cross-platform compatibility (removed Windows-only packages) ✅
+  - [x] Test the application on Streamlit Cloud ✅
+  - [x] App live at: https://hebikatagit-a96zsajn6ln94t2xfnxpcm.streamlit.app/
+- [ ] Share the link with stakeholders for feedback
+- [ ] Consider custom domain setup (optional)
 
