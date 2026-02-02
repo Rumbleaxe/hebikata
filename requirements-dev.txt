@@ -1,0 +1,24 @@
+# Development dependencies (includes all tools)
+# Use this for local development with: uv pip install -r requirements-dev.txt
+
+# Core app dependencies
+-r requirements.txt
+
+# Code quality tools
+black==25.1.0
+ruff==0.11.11
+mypy==1.15.0
+
+# Testing with coverage
+pytest-cov==6.1.1
+
+# Documentation
+sphinx==8.2.3
+sphinx-rtd-theme==3.0.2
+
+# Jupyter/IPython for interactive development
+ipython==9.2.0
+ipykernel==6.29.5
+
+# Windows-specific (only install on Windows)
+pywin32==310; sys_platform == 'win32'

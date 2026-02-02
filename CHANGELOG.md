@@ -35,9 +35,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - data/ directory for exercise definitions
   - .venv/ virtual environment
 
+### Fixed
+- Streamlit Cloud deployment: Removed Windows-only dependencies (pywin32)
+- Created minimal requirements.txt for cross-platform deployment
+- Added requirements-dev.txt for local development with all tools
+
 ### Infrastructure
 - Python 3.12+ support
-- Dependencies: Streamlit 1.45.1, pytest 8.3.5, PyYAML
+- Minimal dependencies for deployment: Streamlit 1.45.1, pytest 8.3.5, PyYAML
 - Virtual environment management with uv
 - Git repository initialization
 

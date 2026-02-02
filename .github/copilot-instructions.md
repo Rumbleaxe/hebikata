@@ -38,15 +38,27 @@ scripts/   # Dev and deployment helpers
 
 ### Dependency Management
 
-This project uses **uv** for fast, reliable Python package management. Install dependencies with:
+This project uses **uv** for fast, reliable Python package management.
 
+**For deployment (minimal):**
 ```bash
-# Install dependencies from requirements.txt
+# Install only what's needed to run the app
 uv pip install -r requirements.txt
+```
 
-# Or create/sync a virtual environment
+**For local development (all tools):**
+```bash
+# Install all dev tools (linters, type checkers, docs, etc.)
+uv pip install -r requirements-dev.txt
+```
+
+**Setup from scratch:**
+```bash
+# Create virtual environment
 uv venv
-uv pip sync requirements.txt
+
+# Install dependencies
+uv pip install -r requirements-dev.txt
 ```
 
 ## Development Commands
