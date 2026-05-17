@@ -2,170 +2,133 @@
 
 ## Project Overview
 
-**hebikata** is a self-hosted Python e-learning platform built with Streamlit. It teaches Python through repetition-based learning (inspired by karate kata), where students practice exercises 5 times with different variations to build mastery.
+**hebikata** is a self-hosted Python e-learning platform built with Streamlit. It teaches Python through repetition-based learning (inspired by karate kata), where students complete exercises 3 times with immediate feedback to build mastery.
 
-The project is currently in early planning stages - the `app/` and `data/` directories mentioned in README.md do not yet exist. Core infrastructure (dependencies, docs setup, utility scripts) is in place.
+The app is fully functional and deployed on Streamlit Cloud.
 
-## Architecture
-
-### Current Structure
+## Directory Structure
 
 ```
 hebikata/
-├── hebikata.py          # Empty placeholder (main app logic TBD)
-├── vistree.py           # Utility: generates directory tree visualization
-├── docs/                # Sphinx documentation setup
-│   ├── source/conf.py   # Sphinx config; expects source in ../app/
-│   └── source/index.rst # Docs skeleton (not yet populated)
-├── requirements.txt     # Full dependency list including Streamlit, pytest, ruff, black, mypy
-└── vistree.bat          # Windows batch script for vistree.py
+├── app/
+│   └── main.py              # Single Streamlit page (entry point + UI + execution engine)
+├── data/
+│   ├── index.yaml           # Ordered registry of exercise refs
+│   ├── exercises/*.yaml     # One file per exercise (nested schema)
+│   └── solutions/*.py       # Correct code, kept separate from YAML
+├── tests/
+│   ├── conftest.py          # Fixtures for loading exercises/solutions
+│   ├── test_execution_engine.py  # Tests for execute_code_with_tests()
+│   ├── test_exercise_data.py     # Validates all exercise YAMLs
+│   └── test_exercise_solutions.py # Auto-validates solutions pass their tests
+├── research/
+│   ├── exercises/           # Exercise design patterns and templates
+│   ├── pedagogy/            # Learning theory and references
+│   └── results/             # User study data and analysis
+├── docs/                    # Sphinx documentation (skeleton, not populated)
+├── requirements.txt         # Minimal deploy deps (Streamlit, pytest, pyyaml)
+├── requirements-dev.txt     # Includes black, ruff, mypy, pytest-cov, sphinx
+├── run_hebikata.bat         # Windows quick launcher
+├── vistree.py               # Directory tree visualization utility
+└── AGENTS.md                # OpenCode agent instructions
 ```
 
-### Planned Structure (from README.md)
-
-```
-app/       # Core Streamlit app, UI components, exercises, pytest tests
-data/      # Exercise variations and hints (JSON files)
-scripts/   # Dev and deployment helpers
-```
-
-### Key Dependencies
+## Key Dependencies
 
 - **UI**: Streamlit 1.45.1
 - **Testing**: pytest 8.3.5, pytest-cov 6.1.1
 - **Code Quality**: ruff 0.11.11, black 25.1.0, mypy 1.15.0
 - **Docs**: Sphinx 8.2.3, sphinx-rtd-theme 3.0.2
 
-### Dependency Management
+## Dependency Management
 
-This project uses **uv** for fast, reliable Python package management.
+Uses **uv** for package management:
 
-**For deployment (minimal):**
 ```bash
-# Install only what's needed to run the app
-uv pip install -r requirements.txt
-```
-
-**For local development (all tools):**
-```bash
-# Install all dev tools (linters, type checkers, docs, etc.)
-uv pip install -r requirements-dev.txt
-```
-
-**Setup from scratch:**
-```bash
-# Create virtual environment
 uv venv
-
-# Install dependencies
-uv pip install -r requirements-dev.txt
+uv pip install -r requirements-dev.txt   # local dev (all tools)
+uv pip install -r requirements.txt       # deployment (minimal)
 ```
 
 ## Development Commands
 
-### Running the App
-
 ```bash
-streamlit run app/main.py
+streamlit run app/main.py                    # Run app at http://localhost:8501
+pytest                                       # Run all tests
+pytest --cov                                 # With coverage
+black .                                      # Format
+ruff check .                                 # Lint
+mypy .                                       # Typecheck
 ```
 
-*Note: This will fail until `app/main.py` is created.*
+## Exercise Data Structure
 
-### Documentation
+Exercises use individual YAML files with a nested schema:
 
-```bash
-# Build HTML documentation (from docs/ directory)
-cd docs
-make html               # Unix/macOS
-make.bat html           # Windows
-
-# View built docs at docs/build/html/index.html
+**`data/index.yaml`** — ordered registry:
+```yaml
+exercises:
+  - ref: var_rpg_001
+  - ref: var_hack_001
+  ...
 ```
 
-### Code Quality
-
-No project-specific configuration files exist yet (no `pyproject.toml`, `ruff.toml`, etc.). Use tool defaults:
-
-```bash
-# Format code
-black .
-
-# Lint code
-ruff check .
-
-# Type checking
-mypy .
-
-# Run tests (once tests exist)
-pytest
-pytest -v                    # Verbose output
-pytest path/to/test_file.py  # Single test file
-pytest -k test_name          # Single test by name
-pytest --cov                 # With coverage
+**`data/exercises/{ref}.yaml`** — exercise definition:
+```yaml
+id: var_rpg_001
+metadata:
+  chapter: 1
+  concept: variables
+  subconcept: assignment
+  difficulty: beginner
+  theme: rpg
+  prerequisites: []
+  tags: [variables, assignment]
+content:
+  prompt: |               # shown to the student
+  initial_code: |         # starting code with a bug
+validation:
+  tests: |                # inline test function(s), run via exec()
+hints:
+  - level: basic
+    text: "..."
+pep_tip: "..."
+boss: false               # true for boss-challenge exercises
 ```
+
+**`data/solutions/{ref}.py`** — plain Python file with the correct answer code.
+
+## Adding a New Exercise
+
+1. Create `data/exercises/{unique_id}.yaml` with the schema above
+2. Create `data/solutions/{unique_id}.py` with the correct code
+3. Register it in `data/index.yaml` at the desired position
+4. Run `pytest` to validate YAML integrity and solution correctness
+
+## Architecture Notes
+
+- `app/main.py` is a single-page Streamlit app with inline CSS (green-terminal arcade theme)
+- Execution engine (`execute_code_with_tests()` at line 64) uses `exec()` in an isolated namespace — no sandboxing
+- Session state tracks: successes, attempts, score, lives
+- Mastery = 3 successful completions per exercise, 50 points each, 3 lives total
+- Tests are inline strings in the exercise YAML, executed via `exec()` not real pytest
 
 ## Project Conventions
 
-### Python Code Style
+- PEP 8 compliance (enforced by black + ruff)
+- Type hints expected (checked by mypy)
+- Google/NumPy-style docstrings (configured in Sphinx conf.py)
+- No `pyproject.toml` or tool-specific config exists — all tools use defaults
+- No CI/CD workflows configured
 
-- **PEP 8 compliance** is required (enforced by black and ruff)
-- **Type hints** are expected (checked by mypy)
-- Focus on **Pythonic idioms** and **clean code principles**
-- All code must be suitable for educational content (clear, well-commented, exemplary)
+## Pedagogical Focus
 
-### Pedagogical Focus
+- **Repetition with variation**: Each concept practiced with different themed inputs
+- **Immediate feedback**: Assertions in test code must produce clear error messages
+- **Progressive difficulty**: Simple to complex, with prerequisites linking exercises
+- **Real-world framing**: Exercises framed as practical tasks (RPG, hacking, science, crypto)
 
-When creating exercises or app features:
+## Deployment
 
-- **Repetition with variation**: Each concept should be practiced multiple times with different inputs
-- **Immediate feedback**: Automated testing must provide clear, actionable error messages
-- **Progressive difficulty**: Build from simple to complex incrementally
-- **Real-world framing**: Exercises should feel like practical programming tasks, not toy problems
-
-### Documentation
-
-- Use **Google or NumPy style docstrings** (configured in Sphinx conf.py with napoleon extension)
-- All public functions/classes must be documented
-- Sphinx autodoc will generate API docs from docstrings
-
-## When Creating New Directories
-
-The project expects `app/`, `data/`, and `scripts/` directories per README.md. When creating these:
-
-1. **app/** should contain:
-   - `main.py` as the Streamlit entry point
-   - Modular components (UI, exercises, test validation logic)
-   - Pytest tests in test files (`test_*.py` or `*_test.py`)
-
-2. **data/** should contain:
-   - JSON files with exercise variations and hints
-   - Follow a consistent schema for exercise definitions
-
-3. **scripts/** should contain:
-   - Development utilities (setup, data generation, deployment helpers)
-   - Keep scripts platform-agnostic where possible
-
-## Utility Scripts
-
-### vistree.py
-
-Generates directory tree visualizations, respecting `.gitignore` rules:
-
-```bash
-python vistree.py
-# Outputs: vistree.txt (ASCII tree) and structure.dot (Graphviz format)
-```
-
-Excludes `.git/`, `venv/`, and gitignored patterns automatically.
-
-## Adding Dependencies
-
-Use `uv` to add new packages:
-
-```bash
-# Add a new package
-uv pip install package-name
-
-# Update requirements.txt after adding packages
-uv pip freeze > requirements.txt
-```
+Streamlit Cloud deploys from `main` using `requirements.txt` (dev packages excluded).
+Live demo: https://hebikatagit-a96zsajn6ln94t2xfnxpcm.streamlit.app/

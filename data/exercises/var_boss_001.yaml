@@ -1,0 +1,30 @@
+id: var_boss_001
+metadata:
+  chapter: 1
+  concept: variables
+  subconcept: review
+  difficulty: beginner
+  theme: arcade
+  prerequisites: [var_crypto_001]
+  tags: [variables, review, multiple-variables]
+content:
+  prompt: |
+    🎮 HIGH SCORE! Set all 3 variables correctly:
+    * player_lives = 3
+    * score = 0
+    * high_score = 999999
+  initial_code: |
+    player_lives = 1
+    score = 100
+    high_score = 1000  # Beat the arcade record!
+validation:
+  tests: |
+    def test_arcade():
+        assert player_lives == 3
+        assert score == 0
+        assert high_score == 999999
+hints:
+  - level: basic
+    text: "Fix all 3 assignments above"
+pep_tip: "Consistency: all snake_case, same style"
+boss: true

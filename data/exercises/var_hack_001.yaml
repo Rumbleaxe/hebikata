@@ -1,0 +1,23 @@
+id: var_hack_001
+metadata:
+  chapter: 1
+  concept: variables
+  subconcept: strings
+  difficulty: beginner
+  theme: hacking
+  prerequisites: [var_rpg_001]
+  tags: [variables, strings, assignment]
+content:
+  prompt: |
+    💀 Terminal> Set decrypt_key to access mainframe
+  initial_code: |
+    decrypt_key = "guest"  # Wrong credentials
+validation:
+  tests: |
+    def test_key():
+        assert decrypt_key == "skRM9x", "Access denied"
+hints:
+  - level: basic
+    text: "decrypt_key = 'skRM9x' (quotes for strings)"
+pep_tip: "String literals use single or double quotes"
+boss: false

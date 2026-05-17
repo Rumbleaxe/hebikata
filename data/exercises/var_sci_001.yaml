@@ -1,0 +1,23 @@
+id: var_sci_001
+metadata:
+  chapter: 1
+  concept: variables
+  subconcept: scientific-notation
+  difficulty: beginner
+  theme: science
+  prerequisites: [var_hack_001]
+  tags: [variables, floats, scientific-notation]
+content:
+  prompt: |
+    🧪 Neutron mass = 1.675e-27 kg. Set it correctly.
+  initial_code: |
+    neutron_mass = 1.675  # Missing scientific notation
+validation:
+  tests: |
+    def test_neutron():
+        assert abs(neutron_mass - 1.675e-27) < 1e-28
+hints:
+  - level: basic
+    text: "Use e for scientific notation: 1.675e-27"
+pep_tip: "Floats for decimals, meaningful names"
+boss: false

@@ -1,0 +1,23 @@
+id: var_crypto_001
+metadata:
+  chapter: 1
+  concept: variables
+  subconcept: hex-literals
+  difficulty: beginner
+  theme: crypto
+  prerequisites: [var_sci_001]
+  tags: [variables, hex, integers]
+content:
+  prompt: |
+    🔐 Nonce must be 0xdeadbeef for blockchain validation
+  initial_code: |
+    nonce = 3735928559  # Decimal form - convert!
+validation:
+  tests: |
+    def test_nonce():
+        assert hex(nonce) == "0xdeadbeef"
+hints:
+  - level: basic
+    text: "nonce = 0xdeadbeef (0x prefix for hex)"
+pep_tip: "Hex literals start with 0x"
+boss: false

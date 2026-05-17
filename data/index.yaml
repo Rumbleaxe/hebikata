@@ -1,0 +1,6 @@
+exercises:
+  - ref: var_rpg_001
+  - ref: var_hack_001
+  - ref: var_sci_001
+  - ref: var_crypto_001
+  - ref: var_boss_001

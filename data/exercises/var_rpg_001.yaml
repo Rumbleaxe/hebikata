@@ -1,0 +1,23 @@
+id: var_rpg_001
+metadata:
+  chapter: 1
+  concept: variables
+  subconcept: assignment
+  difficulty: beginner
+  theme: rpg
+  prerequisites: []
+  tags: [variables, assignment, integers]
+content:
+  prompt: |
+    🧙‍♂️ Your wizard casts Fireball! Set mana to 100.
+  initial_code: |
+    mana = 50  # Too low for Fireball!
+validation:
+  tests: |
+    def test_mana():
+        assert mana == 100, "Fireball needs 100 mana!"
+hints:
+  - level: basic
+    text: "Use = to assign: mana = 100"
+pep_tip: "PEP8: snake_case (player_mana), not camelCase"
+boss: false
