@@ -1,0 +1,38 @@
+id: ctrl_hack_001
+metadata:
+  chapter: 2
+  concept: control-flow
+  subconcept: if-elif-else
+  difficulty: beginner
+  theme: hacking
+  prerequisites: [ctrl_rpg_001]
+  tags: [control-flow, if, elif, else, multiple-conditions]
+content:
+  prompt: |
+    💀 Classify the hacker's clearance level:
+    * clearance == 3 → permission = "admin"
+    * clearance == 2 → permission = "operator"
+    * otherwise → permission = "guest"
+
+    The clearance is set to 3.
+  initial_code: |
+    clearance = 3
+    if clearance == 1:
+        permission = "admin"
+    elif clearance == 2:
+        permission = "operator"
+    else:
+        permission = "guest"
+validation:
+  tests: |
+    def test_permission():
+        assert permission == "admin", f"Expected admin, got {permission}"
+hints:
+  - level: basic
+    text: "The if/elif conditions don't match the clearance levels in the prompt"
+  - level: detailed
+    text: "Clearance 3 should give admin, but the code checks clearance == 1 for admin"
+  - level: solution
+    text: "Change `if clearance == 1:` to `if clearance == 3:`"
+pep_tip: "Use == for equality checks, not = (assignment)"
+boss: false

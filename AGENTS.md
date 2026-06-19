@@ -13,16 +13,29 @@
 - `tests/test_exercise_data.py` — validates all exercise YAMLs have required fields, valid prereqs, correct types
 - `tests/test_exercise_solutions.py` — auto-validates every exercise solution passes its own tests
 
-## Code quality (no project config — tool defaults)
+## Code quality
 - Format: `black .`
 - Lint: `ruff check .`
-- Typecheck: `mypy .`
+- Typecheck: `mypy app/`
+- All tool configs in `pyproject.toml`
 
 ## Architecture
-- Entrypoint: `app/main.py` — single Streamlit page with inline CSS (arcade green-terminal theme)
-- Execution engine: `execute_code_with_tests()` at `app/main.py:64` — uses `exec()` in isolated namespace, runs all `test_*` functions found
-- Session state tracked via `st.session_state` (successes, attempts, score, lives)
+```
+app/
+├── main.py         # Entry point — page config + render_app() call
+├── engine.py       # execute_code_with_tests() — exec() in isolated namespace
+├── data_loader.py  # load_exercises() — reads index.yaml + per-file YAMLs
+├── session.py      # Session state, persistence (localStorage), navigation, hints
+└── ui.py           # All Streamlit UI, CSS theme, code editor, layout
+```
+
+- Entrypoint: `app/main.py` — calls `app.ui.render_app()`
+- Execution engine: `app/engine.py` — `execute_code_with_tests()` uses `exec()` in isolated namespace
+- Session state: `app/session.py` — manages progress, localStorage persistence, hint system
+- UI: `app/ui.py` — purple dark theme, JetBrains Mono font, streamlit-code-editor
 - Mastery = 3 successful completions per exercise, 50 points each, 3 lives total
+- Hints: 3 levels per exercise (basic → detailed → solution), -10 points per hint used
+- Persistence: browser localStorage via streamlit-js-eval (per-browser, no auth)
 
 ## Exercise data structure
 ```
@@ -59,6 +72,10 @@ validation:
 hints:
   - level: basic
     text: "..."
+  - level: detailed
+    text: "..."
+  - level: solution
+    text: "..."
 pep_tip: "..."
 boss: false               # true for boss-challenge exercises
 ```
@@ -71,15 +88,18 @@ boss: false               # true for boss-challenge exercises
 3. Register it in `data/index.yaml` at the desired position
 4. Run `pytest` to validate YAML integrity and solution correctness
 
-## Research notes
-- `research/` — store findings on pedagogy, exercise design patterns, and effectiveness data
-- `research/pedagogy/` — spaced repetition, mastery learning references
-- `research/exercises/` — exercise design templates and schemas
-- `research/results/` — user study data and analysis
+## Chapters
+- Ch 1: Variables (5 exercises — assignment, strings, floats, hex, boss)
+- Ch 2: Control Flow (5 exercises — if/else, if/elif/else, nested if, comparison ops, boss)
+- Ch 3: Functions (5 exercises — def/return, parameters, multiple params, defaults, boss)
+
+## CI/CD
+- GitHub Actions: `.github/workflows/ci.yml`
+- Runs on push/PR to main: ruff, black --check, mypy, pytest --cov
 
 ## Gotchas
-- No `pyproject.toml`, CI/CD, or tool-specific config exists yet
-- Sphinx docs scaffold in `docs/` is skeleton (not populated)
-- `app/main.py` uses `exec()` for code execution — no sandbox beyond isolated namespace
+- `app/engine.py` uses `exec()` for code execution — no sandbox beyond isolated namespace
 - Streamlit Cloud deploys from `main` using `requirements.txt` (not `requirements-dev.txt`)
+- localStorage persistence is per-browser; no cross-device sync
+- streamlit-code-editor returns a dict (`response["text"]`), not a plain string
 - Live demo: https://hebikatagit-a96zsajn6ln94t2xfnxpcm.streamlit.app/

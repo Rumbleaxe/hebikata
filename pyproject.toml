@@ -1,0 +1,55 @@
+[project]
+name = "hebikata"
+version = "0.2.0"
+description = "Python Learning Through Repetition — a gamified Streamlit app"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.12"
+authors = [{ name = "Ioannis Lazaridis" }]
+dependencies = [
+    "streamlit>=1.45.1",
+    "pyyaml>=6.0",
+    "pytest>=8.3.5",
+    "streamlit-code-editor>=0.1.22",
+    "streamlit-js-eval>=0.2.70",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=25.1.0",
+    "ruff>=0.11.11",
+    "mypy>=1.15.0",
+    "pytest-cov>=6.1.1",
+    "sphinx>=8.2.3",
+    "sphinx-rtd-theme>=3.0.2",
+    "ipython>=9.2.0",
+    "ipykernel>=6.29.5",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "A", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+"data/solutions/*.py" = ["SIM108"]
+"docs/source/conf.py" = ["A001"]
+"vistree.py" = ["I001", "UP015", "SIM108"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"

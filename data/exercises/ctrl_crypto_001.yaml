@@ -1,0 +1,36 @@
+id: ctrl_crypto_001
+metadata:
+  chapter: 2
+  concept: control-flow
+  subconcept: comparison-operators
+  difficulty: beginner
+  theme: crypto
+  prerequisites: [ctrl_sci_001]
+  tags: [control-flow, comparison-operators, conditions]
+content:
+  prompt: |
+    🔐 Validate the hash! If hash_value is less than target,
+    set valid to True. Otherwise, set valid to False.
+
+    hash_value = 0x00000abc
+    target = 0x0000ffff
+  initial_code: |
+    hash_value = 0x00000abc
+    target = 0x0000ffff
+    if hash_value > target:
+        valid = True
+    else:
+        valid = False
+validation:
+  tests: |
+    def test_valid():
+        assert valid is True, f"Hash should be valid but got valid={valid}"
+hints:
+  - level: basic
+    text: "The comparison operator is wrong — check which direction it should go"
+  - level: detailed
+    text: "The prompt says 'less than target', but the code uses > instead of <"
+  - level: solution
+    text: "Change `if hash_value > target:` to `if hash_value < target:`"
+pep_tip: "Use 'is' instead of '==' when comparing to True, False, or None"
+boss: false

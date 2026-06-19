@@ -2,7 +2,7 @@ from pathlib import Path
 
 import yaml
 
-from main import execute_code_with_tests
+from app.engine import execute_code_with_tests
 
 
 def _load_exercise(ref: str) -> dict:

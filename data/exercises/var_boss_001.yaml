@@ -25,6 +25,10 @@ validation:
         assert high_score == 999999
 hints:
   - level: basic
-    text: "Fix all 3 assignments above"
+    text: "You need to fix all 3 variable assignments"
+  - level: detailed
+    text: "player_lives = 3, score = 0, high_score = 999999"
+  - level: solution
+    text: "Set each variable to the exact value shown in the prompt"
 pep_tip: "Consistency: all snake_case, same style"
 boss: true

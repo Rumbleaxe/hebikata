@@ -1,0 +1,32 @@
+id: ctrl_rpg_001
+metadata:
+  chapter: 2
+  concept: control-flow
+  subconcept: if-else
+  difficulty: beginner
+  theme: rpg
+  prerequisites: [var_boss_001]
+  tags: [control-flow, if, else, conditions]
+content:
+  prompt: |
+    ⚔️ Your warrior has 75 health. If health is greater than 0,
+    set status to "alive". Otherwise, set it to "defeated".
+  initial_code: |
+    health = 75
+    if health < 0:
+        status = "alive"
+    else:
+        status = "defeated"
+validation:
+  tests: |
+    def test_status():
+        assert status == "alive", "A warrior with HP > 0 should be alive!"
+hints:
+  - level: basic
+    text: "Check the condition — is health < 0 the right check for being alive?"
+  - level: detailed
+    text: "Use if health > 0: for alive status"
+  - level: solution
+    text: "Change `if health < 0:` to `if health > 0:`"
+pep_tip: "PEP8: No spaces around < > == in comparisons... actually do use them!"
+boss: false

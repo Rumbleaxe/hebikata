@@ -1,0 +1,32 @@
+id: func_sci_001
+metadata:
+  chapter: 3
+  concept: functions
+  subconcept: multiple-parameters
+  difficulty: beginner
+  theme: science
+  prerequisites: [func_hack_001]
+  tags: [functions, multiple-parameters, return, math]
+content:
+  prompt: |
+    🔬 Write a function kinetic_energy that takes mass and velocity
+    and returns the kinetic energy: 0.5 * mass * velocity ** 2.
+    The formula is wrong!
+  initial_code: |
+    def kinetic_energy(mass, velocity):
+        return mass * velocity
+validation:
+  tests: |
+    def test_ke():
+        assert kinetic_energy(10, 2) == 20.0, "0.5 * 10 * 4 = 20.0"
+        assert kinetic_energy(2, 3) == 9.0, "0.5 * 2 * 9 = 9.0"
+        assert kinetic_energy(1, 0) == 0.0, "0 velocity = 0 energy"
+hints:
+  - level: basic
+    text: "The formula is just mass * velocity — kinetic energy needs the 0.5 and velocity squared"
+  - level: detailed
+    text: "Kinetic energy = 0.5 * mass * velocity**2, not mass * velocity"
+  - level: solution
+    text: "Change to: return 0.5 * mass * velocity ** 2"
+pep_tip: "Use ** for exponentiation, not ^ (that's XOR in Python!)"
+boss: false

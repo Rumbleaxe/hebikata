@@ -1,0 +1,38 @@
+id: ctrl_sci_001
+metadata:
+  chapter: 2
+  concept: control-flow
+  subconcept: nested-if
+  difficulty: beginner
+  theme: science
+  prerequisites: [ctrl_hack_001]
+  tags: [control-flow, nested-if, conditions]
+content:
+  prompt: |
+    🔬 Classify water by temperature:
+    * temp_c < 0 → phase = "solid"
+    * 0 <= temp_c < 100 → phase = "liquid"
+    * temp_c >= 100 → phase = "gas"
+
+    The temperature is 50°C.
+  initial_code: |
+    temp_c = 50
+    if temp_c < 0:
+        phase = "liquid"
+    elif temp_c < 100:
+        phase = "solid"
+    else:
+        phase = "gas"
+validation:
+  tests: |
+    def test_phase():
+        assert phase == "liquid", f"Expected liquid, got {phase}"
+hints:
+  - level: basic
+    text: "The phase labels are swapped — solid and liquid are in the wrong branches"
+  - level: detailed
+    text: "Below 0°C should be 'solid', not 'liquid'. Between 0-100 should be 'liquid', not 'solid'"
+  - level: solution
+    text: "Swap the strings: phase = 'solid' in the if block, phase = 'liquid' in the elif block"
+pep_tip: "Keep conditions simple and readable — avoid deep nesting when possible"
+boss: false

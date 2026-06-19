@@ -1,0 +1,32 @@
+id: func_hack_001
+metadata:
+  chapter: 3
+  concept: functions
+  subconcept: parameters
+  difficulty: beginner
+  theme: hacking
+  prerequisites: [func_rpg_001]
+  tags: [functions, parameters, return]
+content:
+  prompt: |
+    💀 Write a function decode_char that takes a code (integer)
+    and returns the corresponding character using chr(code).
+    The function ignores its parameter!
+  initial_code: |
+    def decode_char(code):
+        return chr(65)
+validation:
+  tests: |
+    def test_decode():
+        assert decode_char(65) == "A", "chr(65) should be A"
+        assert decode_char(90) == "Z", "chr(90) should be Z"
+        assert decode_char(48) == "0", "chr(48) should be 0"
+hints:
+  - level: basic
+    text: "The function always returns the same character — it doesn't use its parameter"
+  - level: detailed
+    text: "Replace chr(65) with chr(code) so it uses the parameter"
+  - level: solution
+    text: "Change `return chr(65)` to `return chr(code)`"
+pep_tip: "Parameters make functions reusable — always use them, don't hardcode values"
+boss: false

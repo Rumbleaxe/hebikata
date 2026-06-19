@@ -1,0 +1,39 @@
+id: ctrl_boss_001
+metadata:
+  chapter: 2
+  concept: control-flow
+  subconcept: review
+  difficulty: beginner
+  theme: arcade
+  prerequisites: [ctrl_crypto_001]
+  tags: [control-flow, review, multiple-conditions]
+content:
+  prompt: |
+    🎮 Build the game state machine! Set game_state based on these rules:
+    * lives == 0 → game_state = "game_over"
+    * score >= 1000 → game_state = "victory"
+    * otherwise → game_state = "playing"
+
+    Current: lives = 2, score = 1500
+  initial_code: |
+    lives = 2
+    score = 1500
+    if lives == 0:
+        game_state = "playing"
+    elif score <= 1000:
+        game_state = "victory"
+    else:
+        game_state = "game_over"
+validation:
+  tests: |
+    def test_game_state():
+        assert game_state == "victory", f"Expected victory, got {game_state}"
+hints:
+  - level: basic
+    text: "Multiple bugs: the conditions and result strings are all wrong"
+  - level: detailed
+    text: "lives==0 should give 'game_over' (not 'playing'), score>=1000 should give 'victory' (not with <=)"
+  - level: solution
+    text: "Fix: game_state='game_over' for lives==0, change `<=` to `>=`, and set game_state='victory' for the elif"
+pep_tip: "Order matters in if/elif chains — check the most specific conditions first"
+boss: true

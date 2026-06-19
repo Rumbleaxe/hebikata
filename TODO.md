@@ -15,7 +15,7 @@
   - [x] Implement main features in `app/` directory
     - [x] main.py with Streamlit UI ✅
     - [x] Live code execution with pytest validation ✅
-    - [x] Progress tracking (3/5 success system) ✅
+    - [x] Progress tracking (3 success system) ✅
     - [x] Lives and scoring system ✅
   - [x] Create exercise data structure
     - [x] exercises.yaml with 5 themed exercises ✅
@@ -25,24 +25,20 @@
   - [x] Document the MVP features
     - [x] MVP_README.md with usage guide ✅
 
-## 3. MVP Enhancements (Future Phase)
-**Status**: 📋 Planned - Not yet started  
-**Last Updated**: February 2026
+## 3. v0.2.0 Enhancements ✅ COMPLETE
+**Status**: ✅ Complete
+**Completed**: June 2026
 
-These enhancements are aspirational improvements for future development:
-
-- [ ] Auto-run tests on keystroke (real-time validation)
-- [ ] Snake animation/visualization (visual feedback)
-- [ ] 8-bit sound effects (audio engagement)
-- [ ] Timer and keystroke tracking for scoring (performance metrics)
-- [ ] Session persistence (save progress across sessions)
-- [ ] Better code editor integration (streamlit-ace or Monaco)
-- [ ] More exercise chapters (expand from 5 to 10+ chapters)
-- [ ] User analytics and learning progress tracking
-- [ ] Leaderboard/achievement system
-- [ ] Mobile responsive improvements
-
-**Priority**: These are quality-of-life improvements. The MVP is fully functional and deployed.
+- [x] Session persistence (localStorage via streamlit-js-eval)
+- [x] Better code editor integration (streamlit-code-editor)
+- [x] More exercise chapters (3 chapters, 15 exercises total)
+  - [x] Chapter 2: Control Flow (if/else, if/elif/else, nested if, comparison ops, boss)
+  - [x] Chapter 3: Functions (def/return, parameters, multiple params, defaults, boss)
+- [x] Progressive hint system (3 levels per exercise, -10 points per hint)
+- [x] Visual redesign (purple dark theme, JetBrains Mono, rounded corners, glow effects)
+- [x] Modular architecture (broke up main.py into engine, data_loader, session, ui)
+- [x] pyproject.toml (centralized project metadata and tool configs)
+- [x] CI/CD pipeline (GitHub Actions: ruff, black, mypy, pytest)
 
 ## 4. Upload to Streamlit Host ✅ COMPLETE
 - [x] Set up a Streamlit account
@@ -54,7 +50,28 @@ These enhancements are aspirational improvements for future development:
 - [x] Share the link with stakeholders for feedback ✅
 - [ ] Consider custom domain setup (optional - future consideration)
 
-## 5. Maintenance & Operations
+## 5. Future Enhancements
+**Status**: 📋 Planned
+**Last Updated**: June 2026
+
+- [ ] Auto-run tests on keystroke (real-time validation)
+- [ ] Snake animation/visualization (visual feedback)
+- [ ] 8-bit sound effects (audio engagement)
+- [ ] Timer and keystroke tracking for scoring (performance metrics)
+- [ ] Additional exercise chapters (4-10):
+  - [ ] Data Structures
+  - [ ] Strings/Files
+  - [ ] Error Handling
+  - [ ] OOP
+  - [ ] Advanced Python
+  - [ ] Libraries (NumPy/Pandas)
+  - [ ] CS Fundamentals
+- [ ] User analytics and learning progress tracking
+- [ ] Leaderboard/achievement system
+- [ ] Anti-cheat mechanisms
+- [ ] Mobile responsive improvements
+
+## 6. Maintenance & Operations
 **Status**: ✅ Active
 
 Ongoing tasks:
@@ -63,10 +80,3 @@ Ongoing tasks:
 - [ ] Periodically update dependencies (quarterly review)
 - [ ] Add new Python exercises as requested by users
 - [ ] Track analytics on exercise completion rates
-
-**Current State (February 2026)**:
-- App is stable and functional
-- No critical issues reported
-- MVP successfully serving its purpose as a Python learning platform
-- Enhancement features remain in backlog pending user demand
-

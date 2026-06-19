@@ -4,3 +4,13 @@ exercises:
   - ref: var_sci_001
   - ref: var_crypto_001
   - ref: var_boss_001
+  - ref: ctrl_rpg_001
+  - ref: ctrl_hack_001
+  - ref: ctrl_sci_001
+  - ref: ctrl_crypto_001
+  - ref: ctrl_boss_001
+  - ref: func_rpg_001
+  - ref: func_hack_001
+  - ref: func_sci_001
+  - ref: func_crypto_001
+  - ref: func_boss_001

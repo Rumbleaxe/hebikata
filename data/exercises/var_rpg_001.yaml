@@ -18,6 +18,10 @@ validation:
         assert mana == 100, "Fireball needs 100 mana!"
 hints:
   - level: basic
+    text: "Think about what value mana should have for the spell"
+  - level: detailed
     text: "Use = to assign: mana = 100"
+  - level: solution
+    text: "Replace 50 with 100: mana = 100"
 pep_tip: "PEP8: snake_case (player_mana), not camelCase"
 boss: false

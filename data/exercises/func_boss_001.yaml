@@ -1,0 +1,33 @@
+id: func_boss_001
+metadata:
+  chapter: 3
+  concept: functions
+  subconcept: review
+  difficulty: beginner
+  theme: arcade
+  prerequisites: [func_crypto_001]
+  tags: [functions, review, default-parameters, return]
+content:
+  prompt: |
+    🎮 Write a function calculate_score that takes kills, level,
+    and bonus (default 0). Return kills * level + bonus.
+    There are multiple bugs!
+  initial_code: |
+    def calculate_score(kills, level, bonus):
+        result = kills + level
+        return result
+validation:
+  tests: |
+    def test_score():
+        assert calculate_score(5, 2) == 10, "5*2+0=10"
+        assert calculate_score(10, 3, 50) == 80, "10*3+50=80"
+        assert calculate_score(0, 1) == 0, "0*1+0=0"
+hints:
+  - level: basic
+    text: "Multiple bugs: missing default for bonus, wrong formula, wrong operator"
+  - level: detailed
+    text: "1) Add bonus=0 default. 2) Change kills+level to kills*level. 3) The bonus is missing from the result"
+  - level: solution
+    text: "Change to: `def calculate_score(kills, level, bonus=0):` and `return kills * level + bonus`"
+pep_tip: "Keep functions short and focused — one job per function"
+boss: true

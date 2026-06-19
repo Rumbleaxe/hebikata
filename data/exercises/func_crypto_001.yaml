@@ -1,0 +1,32 @@
+id: func_crypto_001
+metadata:
+  chapter: 3
+  concept: functions
+  subconcept: default-parameters
+  difficulty: beginner
+  theme: crypto
+  prerequisites: [func_sci_001]
+  tags: [functions, default-parameters, return]
+content:
+  prompt: |
+    🔐 Write a function hash_data that takes data and algorithm
+    with algorithm defaulting to "sha256". It should return
+    f"{algorithm}:{data}". The default parameter is missing!
+  initial_code: |
+    def hash_data(data, algorithm):
+        return f"{algorithm}:{data}"
+validation:
+  tests: |
+    def test_hash():
+        assert hash_data("hello") == "sha256:hello", "Default should be sha256"
+        assert hash_data("hello", "md5") == "md5:hello", "Should use provided algorithm"
+        assert hash_data("test", "sha1") == "sha1:test", "Should work with any algorithm"
+hints:
+  - level: basic
+    text: "The function requires algorithm every time — it should have a default value"
+  - level: detailed
+    text: "Add a default: change `algorithm` to `algorithm='sha256'` in the parameter list"
+  - level: solution
+    text: "Change `def hash_data(data, algorithm):` to `def hash_data(data, algorithm='sha256'):`"
+pep_tip: "Default parameters go after all required parameters"
+boss: false

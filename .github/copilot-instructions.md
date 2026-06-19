@@ -11,7 +11,11 @@ The app is fully functional and deployed on Streamlit Cloud.
 ```
 hebikata/
 ├── app/
-│   └── main.py              # Single Streamlit page (entry point + UI + execution engine)
+│   ├── main.py              # Entry point — page config + render_app() call
+│   ├── engine.py            # execute_code_with_tests() — exec() in isolated namespace
+│   ├── data_loader.py       # load_exercises() — reads index.yaml + per-file YAMLs
+│   ├── session.py           # Session state, persistence (localStorage), navigation, hints
+│   └── ui.py                # All Streamlit UI, CSS theme, code editor, layout
 ├── data/
 │   ├── index.yaml           # Ordered registry of exercise refs
 │   ├── exercises/*.yaml     # One file per exercise (nested schema)
@@ -21,24 +25,24 @@ hebikata/
 │   ├── test_execution_engine.py  # Tests for execute_code_with_tests()
 │   ├── test_exercise_data.py     # Validates all exercise YAMLs
 │   └── test_exercise_solutions.py # Auto-validates solutions pass their tests
-├── research/
-│   ├── exercises/           # Exercise design patterns and templates
-│   ├── pedagogy/            # Learning theory and references
-│   └── results/             # User study data and analysis
-├── docs/                    # Sphinx documentation (skeleton, not populated)
-├── requirements.txt         # Minimal deploy deps (Streamlit, pytest, pyyaml)
-├── requirements-dev.txt     # Includes black, ruff, mypy, pytest-cov, sphinx
-├── run_hebikata.bat         # Windows quick launcher
-├── vistree.py               # Directory tree visualization utility
-└── AGENTS.md                # OpenCode agent instructions
+├── .github/
+│   ├── copilot-instructions.md    # This file
+│   └── workflows/ci.yml           # CI: ruff, black, mypy, pytest
+├── pyproject.toml            # Project metadata + tool configs
+├── requirements.txt          # Minimal deploy deps
+├── requirements-dev.txt      # Full dev deps
+├── AGENTS.md                 # OpenCode agent instructions
+└── run_hebikata.bat          # Windows quick launcher
 ```
 
 ## Key Dependencies
 
-- **UI**: Streamlit 1.45.1
-- **Testing**: pytest 8.3.5, pytest-cov 6.1.1
-- **Code Quality**: ruff 0.11.11, black 25.1.0, mypy 1.15.0
-- **Docs**: Sphinx 8.2.3, sphinx-rtd-theme 3.0.2
+- **UI**: Streamlit >=1.45.1
+- **Code Editor**: streamlit-code-editor >=0.1.22
+- **Persistence**: streamlit-js-eval >=0.2.70
+- **Testing**: pytest >=8.3.5, pytest-cov >=6.1.1
+- **Code Quality**: ruff >=0.11.11, black >=25.1.0, mypy >=1.15.0
+- **Docs**: Sphinx >=8.2.3, sphinx-rtd-theme >=3.0.2
 
 ## Dependency Management
 
@@ -58,7 +62,7 @@ pytest                                       # Run all tests
 pytest --cov                                 # With coverage
 black .                                      # Format
 ruff check .                                 # Lint
-mypy .                                       # Typecheck
+mypy app/                                    # Typecheck
 ```
 
 ## Exercise Data Structure
@@ -92,6 +96,10 @@ validation:
 hints:
   - level: basic
     text: "..."
+  - level: detailed
+    text: "..."
+  - level: solution
+    text: "..."
 pep_tip: "..."
 boss: false               # true for boss-challenge exercises
 ```
@@ -107,19 +115,22 @@ boss: false               # true for boss-challenge exercises
 
 ## Architecture Notes
 
-- `app/main.py` is a single-page Streamlit app with inline CSS (green-terminal arcade theme)
-- Execution engine (`execute_code_with_tests()` at line 64) uses `exec()` in an isolated namespace — no sandboxing
-- Session state tracks: successes, attempts, score, lives
+- `app/main.py` is a slim entry point that calls `app.ui.render_app()`
+- Execution engine (`app/engine.py`) uses `exec()` in an isolated namespace — no sandboxing
+- Session state (`app/session.py`) tracks: successes, attempts, score, lives, hint_levels
+- Persistence uses browser localStorage via `streamlit-js-eval` (per-browser, no auth)
+- UI (`app/ui.py`) uses a purple dark theme with JetBrains Mono font
+- Code editor is `streamlit-code-editor` (returns a dict; access code via `response["text"]`)
 - Mastery = 3 successful completions per exercise, 50 points each, 3 lives total
+- Hints: 3 levels per exercise (basic → detailed → solution), -10 points per hint used
 - Tests are inline strings in the exercise YAML, executed via `exec()` not real pytest
 
 ## Project Conventions
 
 - PEP 8 compliance (enforced by black + ruff)
-- Type hints expected (checked by mypy)
-- Google/NumPy-style docstrings (configured in Sphinx conf.py)
-- No `pyproject.toml` or tool-specific config exists — all tools use defaults
-- No CI/CD workflows configured
+- Type hints expected (checked by mypy, Python 3.12 style: `dict` not `Dict`, `X | Y` not `Optional`)
+- Tool configs centralized in `pyproject.toml`
+- CI runs on push/PR to main via GitHub Actions
 
 ## Pedagogical Focus
 

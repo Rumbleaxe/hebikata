@@ -6,10 +6,10 @@ metadata:
   difficulty: beginner
   theme: hacking
   prerequisites: [var_rpg_001]
-  tags: [variables, strings, assignment]
+  tags: [variables, strings]
 content:
   prompt: |
-    💀 Terminal> Set decrypt_key to access mainframe
+    💀 Breach the mainframe! Set decrypt_key to "skRM9x".
   initial_code: |
     decrypt_key = "guest"  # Wrong credentials
 validation:
@@ -18,6 +18,10 @@ validation:
         assert decrypt_key == "skRM9x", "Access denied"
 hints:
   - level: basic
+    text: "Strings use quotes — what should decrypt_key contain?"
+  - level: detailed
     text: "decrypt_key = 'skRM9x' (quotes for strings)"
-pep_tip: "String literals use single or double quotes"
+  - level: solution
+    text: 'Replace "guest" with "skRM9x": decrypt_key = "skRM9x"'
+pep_tip: "String literals use single or double quotes — pick one and be consistent"
 boss: false

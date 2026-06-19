@@ -1,4 +1,4 @@
-from main import execute_code_with_tests
+from app.engine import execute_code_with_tests
 
 
 class TestSuccessfulExecution:

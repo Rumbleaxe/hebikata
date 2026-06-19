@@ -1,15 +1,15 @@
-# Core dependencies for HebiKata MVP
+# Core dependencies for HebiKata
 # Streamlit Cloud compatible (no Windows-only packages)
 
 # Core app
-streamlit==1.45.1
-pyyaml
+streamlit>=1.45.1
+pyyaml>=6.0
 
 # Testing (for exercise validation)
-pytest==8.3.5
+pytest>=8.3.5
 
-# Optional dev dependencies (commented out for minimal deployment)
-# black==25.1.0
-# ruff==0.11.11
-# mypy==1.15.0
-# pytest-cov==6.1.1
+# Code editor component
+streamlit-code-editor>=0.1.22
+
+# Session persistence (localStorage)
+streamlit-js-eval>=0.2.70

@@ -1,0 +1,31 @@
+id: func_rpg_001
+metadata:
+  chapter: 3
+  concept: functions
+  subconcept: def-return
+  difficulty: beginner
+  theme: rpg
+  prerequisites: [ctrl_boss_001]
+  tags: [functions, def, return]
+content:
+  prompt: |
+    ⚔️ Write a function calculate_damage that takes base and bonus,
+    and returns their sum. The function body is missing its return!
+  initial_code: |
+    def calculate_damage(base, bonus):
+        result = base + bonus
+validation:
+  tests: |
+    def test_damage():
+        assert calculate_damage(10, 5) == 15, "10 + 5 should equal 15"
+        assert calculate_damage(0, 0) == 0, "0 + 0 should equal 0"
+        assert calculate_damage(100, 50) == 150, "100 + 50 should equal 150"
+hints:
+  - level: basic
+    text: "The function calculates the result but never gives it back to the caller"
+  - level: detailed
+    text: "Add a return statement: return result"
+  - level: solution
+    text: "Add `return result` at the end of the function"
+pep_tip: "Every function should have a docstring if it does anything non-trivial"
+boss: false

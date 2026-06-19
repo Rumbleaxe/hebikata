@@ -6,18 +6,22 @@ metadata:
   difficulty: beginner
   theme: crypto
   prerequisites: [var_sci_001]
-  tags: [variables, hex, integers]
+  tags: [variables, hex-literals]
 content:
   prompt: |
-    🔐 Nonce must be 0xdeadbeef for blockchain validation
+    🔐 Mine the block! Set nonce to 0xdeadbeef (hexadecimal).
   initial_code: |
-    nonce = 3735928559  # Decimal form - convert!
+    nonce = 3735928559  # Decimal form — convert!
 validation:
   tests: |
     def test_nonce():
-        assert hex(nonce) == "0xdeadbeef"
+        assert hex(nonce) == '0xdeadbeef'
 hints:
   - level: basic
-    text: "nonce = 0xdeadbeef (0x prefix for hex)"
-pep_tip: "Hex literals start with 0x"
+    text: "Python supports hex literals — what prefix do they use?"
+  - level: detailed
+    text: "Hex literals start with 0x: nonce = 0xdeadbeef"
+  - level: solution
+    text: "Replace the decimal with hex: nonce = 0xdeadbeef"
+pep_tip: "Hex literals start with 0x, octal with 0o, binary with 0b"
 boss: false
