@@ -4,6 +4,11 @@ HebiKata - Python Learning Through Repetition
 Main Streamlit application entry point.
 """
 
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 import streamlit as st
 
 from app.ui import render_app
@@ -15,5 +20,4 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-if __name__ == "__main__":
-    render_app()
+render_app()
