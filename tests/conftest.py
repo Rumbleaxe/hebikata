@@ -1,25 +1,27 @@
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent.parent / "app"))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import pytest
 import yaml
 
+_DATA_DIR = Path(__file__).resolve().parent.parent / "data"
+
 
 def load_exercise(ref: str) -> dict:
-    path = Path(__file__).parent.parent / "data" / "exercises" / f"{ref}.yaml"
+    path = _DATA_DIR / "exercises" / f"{ref}.yaml"
     with open(path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
 def load_solution(ref: str) -> str:
-    path = Path(__file__).parent.parent / "data" / "solutions" / f"{ref}.py"
+    path = _DATA_DIR / "solutions" / f"{ref}.py"
     return path.read_text(encoding="utf-8")
 
 
 def load_index() -> list[str]:
-    path = Path(__file__).parent.parent / "data" / "index.yaml"
+    path = _DATA_DIR / "index.yaml"
     with open(path, encoding="utf-8") as f:
         data = yaml.safe_load(f)
     return [entry["ref"] for entry in data["exercises"]]
