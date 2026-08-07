@@ -1,8 +1,8 @@
 """
 HebiKata - UI Rendering
 
-All Streamlit UI code: brand-themed visual design, exercise display,
-code editor, progress panel, navigation, and action bar.
+Streamlit UI: brand-themed visual design, exercise display,
+code editor, progress panel, navigation, and action buttons.
 """
 
 from pathlib import Path
@@ -35,7 +35,7 @@ def _theme_css() -> str:
 
 
 # ═══════════════════════════════════════════════════════════════
-# RENDER FUNCTIONS
+# RENDER
 # ═══════════════════════════════════════════════════════════════
 
 
@@ -47,12 +47,12 @@ def _render_header() -> None:
         unsafe_allow_html=True,
     )
     st.markdown(
-        '<div class="main-subtitle">Python Kata Dojo &mdash; Master through repetition</div>',
+        '<div class="main-subtitle">Python Kata Dojo</div>',
         unsafe_allow_html=True,
     )
 
 
-def _render_signal_strip() -> None:
+def _render_stats_bar() -> None:
     current_idx = st.session_state.current_exercise_idx
     successes = st.session_state.successes[current_idx]
     total = len(st.session_state.exercises)
@@ -63,11 +63,10 @@ def _render_signal_strip() -> None:
         ("EXERCISE", f"{current_idx + 1}/{total}"),
         ("PROGRESS", f"{successes}/{MASTERY_THRESHOLD}"),
     ]
-
-    html = '<div class="signal-strip">'
+    html = '<div class="stats-bar">'
     for label, value in cells:
         html += (
-            f'<div class="signal-cell">'
+            f'<div class="stats-cell">'
             f'<span class="sig-value">{value}</span>'
             f'<span class="sig-label">{label}</span>'
             f"</div>"
@@ -88,7 +87,7 @@ def _render_exercise_prompt() -> None:
         badges += '<span class="boss-badge">Boss</span>'
 
     st.markdown(
-        f'<div class="section-title">{badges} Exercise {current_idx + 1}: {theme}</div>',
+        f'<div class="section-title">{badges} {theme} &mdash; Exercise {current_idx + 1}</div>',
         unsafe_allow_html=True,
     )
     st.markdown(
@@ -171,28 +170,91 @@ def _render_test_result() -> None:
         if result["mastery"]:
             st.balloons()
             st.markdown(
-                '<div class="mastery-text">🎉 Exercise Complete! You\'ve mastered this kata!</div>',
+                '<div class="mastery-text">Exercise Complete — kata mastered!</div>',
                 unsafe_allow_html=True,
             )
     else:
         st.error(result["message"])
         if result["error"]:
-            with st.expander("Show Error Details"):
+            with st.expander("Error Details"):
                 st.code(result["error"])
 
     st.session_state.last_result = None
 
 
-def _render_progress_tabs() -> None:
+def _render_action_buttons() -> None:
+    current_idx = st.session_state.current_exercise_idx
+    total = len(st.session_state.exercises)
+
+    nav1, nav2, act1, act2, act3 = st.columns([0.8, 0.8, 1.2, 1, 1])
+
+    with nav1:
+        st.button(
+            "⬅ Prev",
+            disabled=current_idx == 0,
+            use_container_width=True,
+            on_click=_navigate_previous,
+        )
+
+    with nav2:
+        st.button(
+            "Next ➡",
+            disabled=current_idx == total - 1,
+            use_container_width=True,
+            on_click=_navigate_next,
+        )
+
+    with act1:
+        st.button(
+            "🧪 Run Tests",
+            use_container_width=True,
+            type="primary",
+            on_click=_run_tests,
+        )
+
+    with act2:
+        _render_hint_popover()
+
+    with act3:
+        st.button("🔄 Reset", use_container_width=True, on_click=reset_exercise_code)
+
+
+def _render_hint_popover() -> None:
+    current_idx = st.session_state.current_exercise_idx
+    current_level = get_current_hint_level()
+    hints = get_current_exercise().get("hints", [])
+
+    with st.popover("💡 Hint", use_container_width=True):
+        if current_level >= 0:
+            shown_idx = min(current_level, len(hints) - 1)
+            st.caption(f"Hint {shown_idx + 1}/{len(hints)}")
+            st.markdown(
+                f'<div class="hint-box">{hints[shown_idx]["text"]}</div>',
+                unsafe_allow_html=True,
+            )
+            st.divider()
+
+        if current_level < len(hints) - 1:
+            st.button(
+                "Reveal Next Hint",
+                key=f"hint_btn_{current_idx}_{current_level}",
+                use_container_width=True,
+                on_click=advance_hint,
+            )
+        else:
+            st.caption("All hints revealed.")
+
+
+def _render_progress_panel() -> None:
     chapters: dict[int, list] = {}
     for idx, exercise in enumerate(st.session_state.exercises):
         chapter = exercise["metadata"]["chapter"]
         chapters.setdefault(chapter, []).append((idx, exercise))
 
-    tab_labels = [f"Chapter {ch}" for ch in sorted(chapters)]
+    tab_labels = [f"Ch {ch}" for ch in sorted(chapters)]
     tabs = st.tabs(tab_labels)
 
-    for tab, (_chapter, items) in zip(tabs, sorted(chapters.items()), strict=False):
+    for tab, (_ch, items) in zip(tabs, sorted(chapters.items()), strict=False):
         with tab:
             for idx, exercise in items:
                 success_count = st.session_state.successes[idx]
@@ -210,86 +272,37 @@ def _render_progress_tabs() -> None:
                     f'<div class="progress-item{current_class}">'
                     f'<span class="dot {dot_class}"></span>'
                     f"{'👉 ' if is_current else ''}"
-                    f"<strong>{theme_name}</strong> &mdash; {success_count}/{MASTERY_THRESHOLD}"
+                    f"{theme_name} &middot; {success_count}/{MASTERY_THRESHOLD}"
                     f"</div>",
                     unsafe_allow_html=True,
                 )
 
 
-def _render_pep_expander() -> None:
+def _render_pep_tip() -> None:
     current_exercise = get_current_exercise()
     tip = current_exercise.get("pep_tip", "Keep your code clean and readable!")
-    with st.expander("💡 PEP8 Tip"):
-        st.markdown(f'<div class="pep-tip-box">{tip}</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">PEP8</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="pep-tip-box">{tip}</div>', unsafe_allow_html=True)
 
 
-def _render_bottom_bar() -> None:
-    current_idx = st.session_state.current_exercise_idx
-    total = len(st.session_state.exercises)
-
-    with st.bottom:
-        pn_col, act_col = st.columns([1, 2])
-
-        with pn_col:
-            nav_l, nav_r = st.columns(2)
-            with nav_l:
-                st.button(
-                    "⬅ Prev",
-                    disabled=current_idx == 0,
-                    use_container_width=True,
-                    on_click=_navigate_previous,
-                )
-            with nav_r:
-                st.button(
-                    "Next ➡",
-                    disabled=current_idx == total - 1,
-                    use_container_width=True,
-                    on_click=_navigate_next,
-                )
-
-        with act_col:
-            b1, b2, b3 = st.columns(3)
-            with b1:
-                st.button(
-                    "🧪 Run Tests",
-                    use_container_width=True,
-                    type="primary",
-                    on_click=_run_tests,
-                )
-            with b2:
-                _render_hint_popover()
-            with b3:
-                st.button(
-                    "🔄 Reset Code",
-                    use_container_width=True,
-                    on_click=reset_exercise_code,
-                )
+# ═══════════════════════════════════════════════════════════════
+# DIALOGS
+# ═══════════════════════════════════════════════════════════════
 
 
-def _render_hint_popover() -> None:
-    current_idx = st.session_state.current_exercise_idx
-    current_level = get_current_hint_level()
-    hints = get_current_exercise().get("hints", [])
-
-    with st.popover("💡 Hint", use_container_width=True):
-        if current_level >= 0:
-            shown_idx = min(current_level, len(hints) - 1)
-            st.caption(f"Level {shown_idx + 1} of {len(hints)}")
-            st.markdown(
-                f'<div class="hint-box">{hints[shown_idx]["text"]}</div>',
-                unsafe_allow_html=True,
-            )
-            st.divider()
-
-        if current_level < len(hints) - 1:
-            if st.button(
-                f"Reveal Hint {current_level + 2}",
-                key=f"hint_next_{current_idx}_{current_level}",
-                use_container_width=True,
-            ):
-                advance_hint()
-        else:
-            st.caption("All hints revealed.")
+@st.dialog("Reset All Progress", width="small")
+def _reset_dialog() -> None:
+    st.warning("Erase all progress, scores, and hint levels?")
+    st.caption("Your localStorage data will be cleared. This cannot be undone.")
+    c1, c2 = st.columns(2)
+    with c1:
+        if st.button("Cancel", use_container_width=True):
+            st.session_state.show_reset_dialog = False
+            st.rerun(scope="app")
+    with c2:
+        if st.button("Reset Everything", type="primary", use_container_width=True):
+            st.session_state.show_reset_dialog = False
+            reset_all_progress()
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -308,34 +321,11 @@ def _navigate_next() -> None:
 
 
 # ═══════════════════════════════════════════════════════════════
-# DIALOGS
-# ═══════════════════════════════════════════════════════════════
-
-
-@st.dialog("Reset All Progress", width="small")
-def _reset_dialog() -> None:
-    st.warning(
-        "This will permanently erase all your progress, scores, and hint levels."
-    )
-    st.caption("This action cannot be undone. Your localStorage data will be cleared.")
-    left, right = st.columns(2)
-    with left:
-        if st.button("Cancel", use_container_width=True):
-            st.session_state.show_reset_dialog = False
-            st.rerun(scope="app")
-    with right:
-        if st.button("Yes, Reset Everything", type="primary", use_container_width=True):
-            st.session_state.show_reset_dialog = False
-            reset_all_progress()
-
-
-# ═══════════════════════════════════════════════════════════════
-# MAIN RENDER
+# MAIN
 # ═══════════════════════════════════════════════════════════════
 
 
 def render_app() -> None:
-    """Main application render function — orchestrates all UI components."""
     initialize_session_state()
 
     if "last_result" not in st.session_state:
@@ -346,33 +336,31 @@ def render_app() -> None:
     st.html(f"<style>{_theme_css()}</style>")
 
     _render_header()
-    _render_signal_strip()
-    st.markdown('<hr class="gradient-divider">', unsafe_allow_html=True)
+    _render_stats_bar()
 
-    _render_exercise_prompt()
-    _render_code_editor()
-    _render_test_result()
+    left, right = st.columns([2, 1])
 
-    st.space("medium")
+    with left:
+        _render_exercise_prompt()
+        _render_code_editor()
+        _render_test_result()
+        _render_action_buttons()
 
-    _render_progress_tabs()
-    _render_pep_expander()
-
-    st.space("small")
-    if st.button("🗑️ Reset All Progress", key="reset_all_trigger"):
-        st.session_state.show_reset_dialog = True
+    with right:
+        _render_progress_panel()
+        st.markdown('<hr class="gradient-divider">', unsafe_allow_html=True)
+        _render_pep_tip()
+        st.markdown('<hr class="gradient-divider">', unsafe_allow_html=True)
+        if st.button("🗑 Reset All Progress", use_container_width=True):
+            st.session_state.show_reset_dialog = True
 
     if st.session_state.show_reset_dialog:
         _reset_dialog()
 
-    _render_bottom_bar()
-    _render_footer()
-
-
-def _render_footer() -> None:
     st.markdown('<hr class="gradient-divider">', unsafe_allow_html=True)
     st.markdown(
-        f'<div class="footer-text">Practice makes perfect. {MASTERY_THRESHOLD} successes unlock mastery. 🐍</div>',
+        '<div class="footer-text">'
+        f"{MASTERY_THRESHOLD} successes unlock mastery."
+        "</div>",
         unsafe_allow_html=True,
     )
-    st.space("medium")
